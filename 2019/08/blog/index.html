@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.56.3 with theme Tranquilpeak 0.4.6-BETA">
+<meta name="author" content="文高杰">
+<meta name="keywords" content="">
+<meta name="description" content="本项目内容为 《Spring Boot实战合集》系列文章，代码已开源，并持续保持更新。如您觉得该项目对您有用，欢迎点击右上方的 Star 按钮，给予支持！！  个人博客：https://www.codesheep.cn GitHub：https://github.com/hansonwang99  另外所有内容都在我的个人微信公众号 CodeSheep 最先推出，大家可以关注一下，可 长按 或 扫描 下面的 小心心 来获取更多 务实、能看懂、可复现的 原创文。除此之外 提问/进群交流 也可以扫码进行！！！
+  
+数据库/缓存相关  Guava Cache本地缓存在 Spring Boot应用中的实践
+ EVCache缓存在 Spring Boot中的实战
+ Spring Boot应用缓存实践之：Ehcache加持
+ Spring Boot集成 MyBatis和 SQL Server实践
+ Elasticsearch搜索引擎在Spring Boot中的实践
+ 自制一个 elasticsearch-spring-boot-starter
+ Spring Boot项目利用MyBatis Generator进行数据层代码自动生成
+ Mybatis-Plus 真好用（乡村爱情加持）
+  日志相关  Spring Boot日志框架实践  应用监控相关  利用神器 BTrace 追踪线上 Spring Boot应用运行时信息">
+
+
+<meta property="og:description" content="本项目内容为 《Spring Boot实战合集》系列文章，代码已开源，并持续保持更新。如您觉得该项目对您有用，欢迎点击右上方的 Star 按钮，给予支持！！  个人博客：https://www.codesheep.cn GitHub：https://github.com/hansonwang99  另外所有内容都在我的个人微信公众号 CodeSheep 最先推出，大家可以关注一下，可 长按 或 扫描 下面的 小心心 来获取更多 务实、能看懂、可复现的 原创文。除此之外 提问/进群交流 也可以扫码进行！！！
+  
+数据库/缓存相关  Guava Cache本地缓存在 Spring Boot应用中的实践
+ EVCache缓存在 Spring Boot中的实战
+ Spring Boot应用缓存实践之：Ehcache加持
+ Spring Boot集成 MyBatis和 SQL Server实践
+ Elasticsearch搜索引擎在Spring Boot中的实践
+ 自制一个 elasticsearch-spring-boot-starter
+ Spring Boot项目利用MyBatis Generator进行数据层代码自动生成
+ Mybatis-Plus 真好用（乡村爱情加持）
+  日志相关  Spring Boot日志框架实践  应用监控相关  利用神器 BTrace 追踪线上 Spring Boot应用运行时信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Blog">
+<meta name="twitter:title" content="Blog">
+<meta property="og:url" content="https://nimisi613.github.io/2019/08/blog/">
+<meta property="twitter:url" content="https://nimisi613.github.io/2019/08/blog/">
+<meta property="og:site_name" content="腻蜜思糖">
+<meta property="og:description" content="本项目内容为 《Spring Boot实战合集》系列文章，代码已开源，并持续保持更新。如您觉得该项目对您有用，欢迎点击右上方的 Star 按钮，给予支持！！  个人博客：https://www.codesheep.cn GitHub：https://github.com/hansonwang99  另外所有内容都在我的个人微信公众号 CodeSheep 最先推出，大家可以关注一下，可 长按 或 扫描 下面的 小心心 来获取更多 务实、能看懂、可复现的 原创文。除此之外 提问/进群交流 也可以扫码进行！！！
+  
+数据库/缓存相关  Guava Cache本地缓存在 Spring Boot应用中的实践
+ EVCache缓存在 Spring Boot中的实战
+ Spring Boot应用缓存实践之：Ehcache加持
+ Spring Boot集成 MyBatis和 SQL Server实践
+ Elasticsearch搜索引擎在Spring Boot中的实践
+ 自制一个 elasticsearch-spring-boot-starter
+ Spring Boot项目利用MyBatis Generator进行数据层代码自动生成
+ Mybatis-Plus 真好用（乡村爱情加持）
+  日志相关  Spring Boot日志框架实践  应用监控相关  利用神器 BTrace 追踪线上 Spring Boot应用运行时信息">
+<meta name="twitter:description" content="本项目内容为 《Spring Boot实战合集》系列文章，代码已开源，并持续保持更新。如您觉得该项目对您有用，欢迎点击右上方的 Star 按钮，给予支持！！  个人博客：https://www.codesheep.cn GitHub：https://github.com/hansonwang99  另外所有内容都在我的个人微信公众号 CodeSheep 最先推出，大家可以关注一下，可 长按 或 扫描 下面的 小心心 来获取更多 务实、能看懂、可复现的 原创文。除此之外 提问/进群交流 也可以扫码进行！！！
+  
+数据库/缓存相关  Guava Cache本地缓存在 Spring Boot应用中的实践
+ EVCache缓存在 Spring Boot中的实战
+ Spring Boot应用缓存实践之：Ehcache加持
+ Spring Boot集成 MyBatis和 SQL Server实践
+ Elasticsearch搜索引擎在Spring Boot中的实践
+ 自制一个 elasticsearch-spring-boot-starter
+ Spring Boot项目利用MyBatis Generator进行数据层代码自动生成
+ Mybatis-Plus 真好用（乡村爱情加持）
+  日志相关  Spring Boot日志框架实践  应用监控相关  利用神器 BTrace 追踪线上 Spring Boot应用运行时信息">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-08-13T20:17:53">
+  
+  
+    <meta property="article:modified_time" content="2019-08-13T20:17:53">
+  
+  
+  
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/fb2b7b94c106eaada51355fcba8b8567?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/fb2b7b94c106eaada51355fcba8b8567?s=640">
+
+
+    <title>Blog</title>
+
+    <link rel="icon" href="https://nimisi613.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://nimisi613.github.io/2019/08/blog/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://nimisi613.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://nimisi613.github.io/">腻蜜思糖</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://nimisi613.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/fb2b7b94c106eaada51355fcba8b8567?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://nimisi613.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/fb2b7b94c106eaada51355fcba8b8567?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">文高杰</h4>
+        
+          <h5 class="sidebar-profile-bio">蝉鸣声向阳处，明亮到虚幻。</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://nimisi613.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://nimisi613.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://nimisi613.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://nimisi613.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://nimisi613.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/nimisi613" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://example.com" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://nimisi613.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Blog
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-08-13T20:17:53&#43;08:00">
+        
+  八月 13, 2019
+
+      </time>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<h3 id="本项目内容为-spring-boot实战合集-系列文章-代码已开源-并持续保持更新-如您觉得该项目对您有用-欢迎点击右上方的-star-按钮-给予支持">本项目内容为 《Spring Boot实战合集》系列文章，代码已开源，并持续保持更新。如您觉得该项目对您有用，欢迎点击右上方的 Star 按钮，给予支持！！</h3>
+
+<ul>
+<li>个人博客：<a href="https://www.codesheep.cn">https://www.codesheep.cn</a></li>
+<li>GitHub：<a href="https://github.com/hansonwang99">https://github.com/hansonwang99</a></li>
+</ul>
+
+<p>另外所有内容都在我的个人微信公众号 <strong>CodeSheep</strong> 最先推出，大家可以关注一下，可 <strong>长按</strong> 或 <strong>扫描</strong> 下面的 <strong>小心心</strong> 来获取更多 <strong>务实、能看懂、可复现的</strong> 原创文。除此之外 <strong>提问/进群交流</strong> 也可以扫码进行！！！</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/8/9/1651c0ef66e4923f?w=270&amp;h=270&amp;f=png&amp;s=102007" alt="CodeSheep · 程序羊" /></p>
+
+<p><a href="https://996.icu/#/en_US"><img src="https://img.shields.io/badge/link-996.icu-%23FF4D5B.svg" alt="Badge" /></a>
+<a href="https://github.com/996icu/996.ICU/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Anti%20996-blue.svg" alt="LICENSE" /></a>
+<a href="https://join.slack.com/t/996icu/shared_invite/enQtNTg4MjA3MzA1MzgxLWQyYzM5M2IyZmIyMTVjMzU5NTE5MGI5Y2Y2YjgwMmJiMWMxMWMzNGU3NDJmOTdhNmRlYjJlNjk5ZWZhNWIwZGM"><img src="https://img.shields.io/badge/slack-996icu-green.svg" alt="Slack" /></a></p>
+
+<hr />
+
+<hr />
+
+<h1 id="数据库-缓存相关">数据库/缓存相关</h1>
+
+<ul>
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/springbt_guava_cache">Guava Cache本地缓存在 Spring Boot应用中的实践</a></p></li>
+
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/springbt_evcache">EVCache缓存在 Spring Boot中的实战</a></p></li>
+
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/springbt_ehcache">Spring Boot应用缓存实践之：Ehcache加持</a></p></li>
+
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/springbt_mybatis_sqlserver">Spring Boot集成 MyBatis和 SQL Server实践</a></p></li>
+
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/springboot_es_demo">Elasticsearch搜索引擎在Spring Boot中的实践</a></p></li>
+
+<li><p><a href="https://www.codesheep.cn/2019/02/28/elasticsearch-spring-boot-starter/">自制一个 elasticsearch-spring-boot-starter</a></p></li>
+
+<li><p><a href="https://www.codesheep.cn/2019/02/14/mybatis-generator/">Spring Boot项目利用MyBatis Generator进行数据层代码自动生成</a></p></li>
+
+<li><p><a href="https://www.codesheep.cn/2019/04/12/springbt-mybatis-plus/">Mybatis-Plus 真好用（乡村爱情加持）</a></p></li>
+</ul>
+
+<hr />
+
+<h1 id="日志相关">日志相关</h1>
+
+<ul>
+<li><a href="http://www.codesheep.cn/2018/03/29/Boot%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E5%AE%9E%E8%B7%B5/">Spring Boot日志框架实践</a></li>
+</ul>
+
+<hr />
+
+<h1 id="应用监控相关">应用监控相关</h1>
+
+<ul>
+<li><p><a href="https://www.codesheep.cn/2019/01/17/springbt-btrace/">利用神器 BTrace 追踪线上 Spring Boot应用运行时信息</a></p></li>
+
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/springbt_admin_server">Spring Boot应用监控实战</a></p></li>
+
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/spring_boot_admin2.0_demo">Spring Boot Admin 2.0开箱体验</a></p></li>
+</ul>
+
+<hr />
+
+<h1 id="内部机制相关">内部机制相关</h1>
+
+<ul>
+<li><p><a href="http://www.codesheep.cn/2018/07/30/at-SpringBootApplication-zhujie/">SpringBoot 中 @SpringBootApplication注解背后的三体结构探秘</a></p></li>
+
+<li><p><a href="http://www.codesheep.cn/2018/09/04/springboot-startup-process/">SpringBoot 应用程序启动过程探秘</a></p></li>
+
+<li><p><a href="https://www.codesheep.cn/2019/01/24/springbt-starter/">如何自制一个Spring Boot Starter并推送到远端公服</a></p></li>
+</ul>
+
+<hr />
+
+<h1 id="认证和权限相关">认证和权限相关</h1>
+
+<ul>
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/springbt_security_jwt">基于 Spring Security和 JWT的权限系统设计</a></p></li>
+
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/springbt_sso_jwt">基于Spring Security Oauth2的SSO单点登录+JWT权限控制实践</a></p></li>
+</ul>
+
+<hr />
+
+<h1 id="实战经验相关">实战经验相关</h1>
+
+<ul>
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/springbt_uid_generator">Spring Boot工程集成全局唯一ID生成器 UidGenerator</a></p></li>
+
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/springbt_vesta">Spring Boot 工程集成全局唯一ID生成器 Vesta</a></p></li>
+
+<li><p><a href="http://www.codesheep.cn/2018/04/09/SpringBoot%E4%BC%98%E9%9B%85%E7%BC%96%E7%A0%81%E4%B9%8B%EF%BC%9ALombok%E5%8A%A0%E6%8C%81/">Spring Boot优雅编码之：Lombok加持</a></p></li>
+
+<li><p><a href="http://www.codesheep.cn/2018/04/12/SpringBoot%E5%BA%94%E7%94%A8Docker%E5%8C%96/">Spring Boot应用 Docker化</a></p></li>
+
+<li><p><a href="http://www.codesheep.cn/2018/06/23/SpringBoot%E7%83%AD%E9%83%A8%E7%BD%B2%E5%8A%A0%E6%8C%81/">Spring Boot热部署加持</a></p></li>
+
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/springbt_watermark">基于Spring Boot实现图片上传/加水印一把梭操作</a></p></li>
+
+<li><p><a href="http://www.codesheep.cn/2018/06/10/%E4%BB%8ESpringBoot%E5%88%B0SpringMVC/">从Spring Boot到 SpringMVC</a></p></li>
+
+<li><p><a href="http://www.codesheep.cn/2018/11/01/springbt-hanlp/">自然语言处理工具包 HanLP在 Spring Boot中的应用</a></p></li>
+
+<li><p><a href="http://www.codesheep.cn/2018/06/05/SpringBoot%E5%BA%94%E7%94%A8%E9%83%A8%E7%BD%B2%E4%BA%8E%E5%A4%96%E7%BD%AETomcat%E5%AE%B9%E5%99%A8/">Spring Boot应用部署于外置Tomcat容器</a></p></li>
+
+<li><p><a href="https://github.com/hansonwang99/Spring-Boot-In-Action/tree/master/kotlin_with_springbt">初探 Kotlin + Spring Boot联合编程</a></p></li>
+</ul>
+
+<hr />
+
+<h1 id="持续更新中">【持续更新中&hellip;&hellip;】</h1>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://nimisi613.github.io/2019/08/markdown%E8%AF%AD%E6%B3%95/" data-tooltip="Markdown语法">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://nimisi613.github.io/2019/08/blog/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://nimisi613.github.io/2019/08/blog/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://nimisi613.github.io/2019/08/blog/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 文高杰. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://nimisi613.github.io/2019/08/markdown%E8%AF%AD%E6%B3%95/" data-tooltip="Markdown语法">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://nimisi613.github.io/2019/08/blog/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://nimisi613.github.io/2019/08/blog/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://nimisi613.github.io/2019/08/blog/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnimisi613.github.io%2F2019%2F08%2Fblog%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fnimisi613.github.io%2F2019%2F08%2Fblog%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fnimisi613.github.io%2F2019%2F08%2Fblog%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/fb2b7b94c106eaada51355fcba8b8567?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">文高杰</h4>
+    
+      <div id="about-card-bio">蝉鸣声向阳处，明亮到虚幻。</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        无业游民
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        辽宁
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://nimisi613.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://nimisi613.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/nimisi613.github.io\/2019\/08\/blog\/';
+          
+            this.page.identifier = '\/2019\/08\/blog\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
